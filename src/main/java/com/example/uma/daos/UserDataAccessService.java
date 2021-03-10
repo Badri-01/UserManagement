@@ -36,5 +36,10 @@ public class UserDataAccessService implements UserDao{
 		q.addCriteria(Criteria.where("username").is(username));
 		return mongoTemplate.findOne(q, User.class);
 	}
+	@Override
+	public User updateUser(String username, User user) {
+		mongoTemplate.save(user);
+		return null;
+	}
 
 }

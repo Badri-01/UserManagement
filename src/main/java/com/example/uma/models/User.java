@@ -1,9 +1,11 @@
 package com.example.uma.models;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,6 +22,8 @@ public class User {
 	private String email;
 	private String mobile;
 	private String password;
+	@CreatedDate
+    private Date createdDate;
 	private Set<Role> roles;
 	
 	public User(String username, String firstName, String lastName,@NotNull String email, String mobile, String password,
@@ -54,12 +58,39 @@ public class User {
 	}
 
 	public String getPassword() {
-		return "*******";
+		return password;
 	}
 
 	public Set<Role> getRoles() {
 		return roles;
 	}
 	
+	public Date getCreatedDate() {
+		return createdDate;
+	}
 
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	
 }

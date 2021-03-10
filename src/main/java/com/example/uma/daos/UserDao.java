@@ -13,4 +13,6 @@ public interface UserDao {
 
 	User getByUsername(String username);
 
+	User updateUser(String username, User user);
+
 }

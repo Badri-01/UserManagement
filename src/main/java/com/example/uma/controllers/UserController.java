@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,16 +29,6 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	@PostMapping
-	public @ResponseBody String createUser(@Valid @RequestBody User user) throws UserAlreadyExistsException{
-		try {
-			userService.addUser(user);
-		}
-		catch(Exception me) {
-			throw new UserAlreadyExistsException(user.getUsername());
-		}
-		return "Signed up succesfully";
-	}
 	
 	@GetMapping
 	public List<User> getAllUsers() {
@@ -51,6 +42,28 @@ public class UserController {
 			return user;
 		throw new UserNotFoundException(username);
 	}
+	
+	
+	@PostMapping
+	public @ResponseBody String createUser(@Valid @RequestBody User user) throws UserAlreadyExistsException{
+		try {
+			userService.addUser(user);
+		}
+		catch(Exception me) {
+			throw new UserAlreadyExistsException(user.getUsername());
+		}
+		return "Signed up succesfully";
+	}
+	
+	@PutMapping(path = "{username}")
+	public @ResponseBody String updateUser(@PathVariable("username") String username, @Valid @RequestBody User user) throws UserNotFoundException{
+		user=userService.updateUser(username,user);
+		if(user!=null)
+			return "User "+user.getUsername()+" account updated";
+		throw new UserNotFoundException(username);
+	}
+	
+	
 	
 	@DeleteMapping(path = "{username}")
 	public String deleteUser(@PathVariable("username") String username) throws UserNotFoundException{

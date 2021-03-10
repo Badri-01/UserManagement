@@ -30,4 +30,8 @@ public class UserService {
 	public User getByUsername(String username) {
 		return userDao.getByUsername(username);
 	}
+
+	public User updateUser(String username, User user) {
+		return userDao.updateUser(username,user);
+	}
 }
