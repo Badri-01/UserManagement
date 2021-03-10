@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,15 +16,23 @@ public class User {
 
 	@Id
 	private String userId;
+	@NotNull
 	@Indexed(unique=true)
 	private String username;
+	@NotNull
 	private String firstName;
+	@NotNull
 	private String lastName;
+	@NotNull
 	private String email;
+	@NotNull
 	private String mobile;
+	@NotNull
 	private String password;
 	@CreatedDate
     private Date createdDate;
+	@LastModifiedDate
+	private Date lastModifiedDate;
 	private Set<Role> roles;
 	
 	public User(String username, String firstName, String lastName,@NotNull String email, String mobile, String password,
@@ -68,29 +77,21 @@ public class User {
 	public Date getCreatedDate() {
 		return createdDate;
 	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	
+	public Date getLastModifiedDate() {
+		return lastModifiedDate;
 	}
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+	
+	public void update(User user) {
+		this.firstName=user.firstName;
+		this.lastName=user.lastName;
+		this.email=user.email;
+		this.password=user.password;
+		this.mobile=user.mobile;
 	}
 	
 }

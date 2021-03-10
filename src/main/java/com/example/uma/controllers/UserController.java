@@ -5,7 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,11 +47,12 @@ public class UserController {
 	
 	
 	@PostMapping
-	public @ResponseBody String createUser(@Valid @RequestBody User user) throws UserAlreadyExistsException{
+	public @ResponseBody String createUser(@Valid @RequestBody User user) throws UserAlreadyExistsException, MethodArgumentNotValidException{
 		try {
 			userService.addUser(user);
 		}
-		catch(Exception me) {
+		catch(DuplicateKeyException ex) {
+			//System.out.println(ex.getClass());
 			throw new UserAlreadyExistsException(user.getUsername());
 		}
 		return "Signed up succesfully";
@@ -62,7 +65,6 @@ public class UserController {
 			return "User "+user.getUsername()+" account updated";
 		throw new UserNotFoundException(username);
 	}
-	
 	
 	
 	@DeleteMapping(path = "{username}")
@@ -83,8 +85,16 @@ public class UserController {
 	
 	@ExceptionHandler(UserAlreadyExistsException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public @ResponseBody String handleException(UserAlreadyExistsException ex)
+	public @ResponseBody String handleUserAlreadyExistsException(UserAlreadyExistsException ex)
 	{
 	  return "Username "+ ex.getMessage()+" already exists";
+	}
+	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public @ResponseBody String handleValidationException(MethodArgumentNotValidException ex)
+	{
+		String field=ex.getFieldError().getField();
+		return field+" field "+ex.getFieldError(field).getDefaultMessage();
 	}
 }

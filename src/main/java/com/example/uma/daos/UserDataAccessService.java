@@ -38,8 +38,13 @@ public class UserDataAccessService implements UserDao{
 	}
 	@Override
 	public User updateUser(String username, User user) {
-		mongoTemplate.save(user);
-		return null;
+		Query q=new Query();
+		q.addCriteria(Criteria.where("username").is(username));
+		User oldUser=mongoTemplate.findOne(q, User.class);
+		if(oldUser==null)
+			return null;
+		oldUser.update(user);
+		mongoTemplate.save(oldUser);
+		return oldUser;
 	}
-
 }
