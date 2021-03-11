@@ -1,0 +1,13 @@
+DAO and DTO are different.
+DAO provides service to access database.
+DTO - data transfer OBJECT (intermediate mapper of objects between database and service layer)
+
+PasswordEncoder class encode() method
+
+create seperate repository objects (daos) for each collection in dao package.
+
+
+
+https://www.baeldung.com/cascading-with-dbref-and-lifecycle-events-in-spring-data-mongodb
+
+https://www.codejava.net/frameworks/spring-boot/spring-boot-security-role-based-authorization-tutorial

@@ -47,7 +47,7 @@ public class UserController {
 	
 	
 	@PostMapping
-	public @ResponseBody String createUser(@Valid @RequestBody User user) throws UserAlreadyExistsException, MethodArgumentNotValidException{
+	public @ResponseBody String registerNewUser(@Valid @RequestBody User user) throws UserAlreadyExistsException, MethodArgumentNotValidException{
 		try {
 			userService.addUser(user);
 		}
@@ -97,4 +97,6 @@ public class UserController {
 		String field=ex.getFieldError().getField();
 		return field+" field "+ex.getFieldError(field).getDefaultMessage();
 	}
+	
+	
 }

@@ -1,14 +1,18 @@
 package com.example.uma.models;
 
+import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
@@ -24,6 +28,7 @@ public class User {
 	@NotNull
 	private String lastName;
 	@NotNull
+	@Email
 	private String email;
 	@NotNull
 	private String mobile;
@@ -33,17 +38,18 @@ public class User {
     private Date createdDate;
 	@LastModifiedDate
 	private Date lastModifiedDate;
-	private Set<Role> roles;
+	@DBRef
+	private Collection<Role> roles;
 	
-	public User(String username, String firstName, String lastName,@NotNull String email, String mobile, String password,
-			Set<Role> roles) {
+	
+	public User(String username, String firstName, String lastName,@NotNull String email, String mobile, String password) {
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.mobile = mobile;
 		this.password = password;
-		this.roles = roles;
+		this.roles = null;
 	}
 
 	public String getUsername() {
@@ -67,10 +73,10 @@ public class User {
 	}
 
 	public String getPassword() {
-		return password;
+		return "******";
 	}
 
-	public Set<Role> getRoles() {
+	public Collection<Role> getRoles() {
 		return roles;
 	}
 	
@@ -82,7 +88,7 @@ public class User {
 		return lastModifiedDate;
 	}
 
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
 	}
 	
