@@ -1,7 +1,8 @@
-package com.example.uma.models;
+package com.example.uma.model;
 
-import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Email;
@@ -10,7 +11,6 @@ import javax.validation.constraints.Email;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -39,7 +39,7 @@ public class User {
 	@LastModifiedDate
 	private Date lastModifiedDate;
 	@DBRef
-	private Collection<Role> roles;
+	private Set<Role> roles;
 	
 	
 	public User(String username, String firstName, String lastName,@NotNull String email, String mobile, String password) {
@@ -49,7 +49,7 @@ public class User {
 		this.email = email;
 		this.mobile = mobile;
 		this.password = password;
-		this.roles = null;
+		this.roles=new HashSet<Role>();
 	}
 
 	public String getUsername() {
@@ -73,10 +73,10 @@ public class User {
 	}
 
 	public String getPassword() {
-		return "******";
+		return password;
 	}
 
-	public Collection<Role> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 	
@@ -88,7 +88,7 @@ public class User {
 		return lastModifiedDate;
 	}
 
-	public void setRoles(Collection<Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 	
@@ -98,6 +98,10 @@ public class User {
 		this.email=user.email;
 		this.password=user.password;
 		this.mobile=user.mobile;
+	}
+
+	public void setPassword(String encode) {
+		this.password=encode;
 	}
 	
 }

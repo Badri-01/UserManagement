@@ -1,6 +1,6 @@
-package com.example.uma.models;
+package com.example.uma.model;
 
-import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -13,13 +13,16 @@ public class Role {
 	private String roleId;
 	@Indexed(unique=true)
 	private String roleName;
-	@DBRef
-	private Collection<Privilege> privileges;
+	
+	//@DBRef
+	//private Collection<Privilege> privileges;
+	
 	private String roleStatus;
 	
 	public Role(String roleName,String roleStatus) {
 		this.roleName = roleName;
 		this.roleStatus=roleStatus;
+		//this.privileges=null;
 	}
 	public String getRoleId() {
 		return roleId;
@@ -29,6 +32,10 @@ public class Role {
 	}
 	public String getRoleStatus() {
 		return roleStatus;
+	}
+
+	public void setRoleStatus(String status) {
+		this.roleStatus=status;
 	}
 	
 }

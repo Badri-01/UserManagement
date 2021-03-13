@@ -1,10 +1,10 @@
-package com.example.uma.daos;
+package com.example.uma.dao;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.example.uma.models.Role;
+import com.example.uma.model.Role;
 
 
 public interface RoleRepository extends MongoRepository<Role,String>{
-	Role findByRoleId(String roleId);
+	Role findByRoleName(String roleName);
 }

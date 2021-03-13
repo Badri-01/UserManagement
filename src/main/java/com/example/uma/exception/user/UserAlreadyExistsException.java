@@ -1,4 +1,4 @@
-package com.example.uma.exceptions;
+package com.example.uma.exception.user;
 
 @SuppressWarnings("serial")
 public class UserAlreadyExistsException extends Exception {

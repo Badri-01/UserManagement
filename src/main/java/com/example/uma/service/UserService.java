@@ -1,14 +1,15 @@
-package com.example.uma.services;
+package com.example.uma.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.uma.daos.UserRepository;
-import com.example.uma.models.User;
+import com.example.uma.dao.UserRepository;
+import com.example.uma.model.User;
 
 @Service
 public class UserService {
@@ -16,7 +17,11 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired
+    private BCryptPasswordEncoder bcryptEncoder;
+	
 	public void addUser(User user) {
+		user.setPassword(bcryptEncoder.encode(user.getPassword()));
 		userRepository.insert(user);
 	}
 
@@ -42,6 +47,7 @@ public class UserService {
 		User oldUser = userRepository.findByUsername(username);
 		if(oldUser==null)
 			return null;
+		user.setPassword(bcryptEncoder.encode(user.getPassword()));
 		oldUser.update(user);
 		userRepository.save(oldUser);
 		return oldUser;

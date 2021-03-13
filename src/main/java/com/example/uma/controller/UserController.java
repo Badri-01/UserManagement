@@ -1,4 +1,4 @@
-package com.example.uma.controllers;
+package com.example.uma.controller;
 
 import java.util.List;
 
@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.uma.exceptions.UserAlreadyExistsException;
-import com.example.uma.exceptions.UserNotFoundException;
-import com.example.uma.models.User;
-import com.example.uma.services.UserService;
+import com.example.uma.exception.user.UserAlreadyExistsException;
+import com.example.uma.exception.user.UserNotFoundException;
+import com.example.uma.model.User;
+import com.example.uma.service.UserService;
 
 @RequestMapping("/api/v1/user/")
 @RestController	
@@ -31,6 +31,7 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+
 	
 	@GetMapping
 	public List<User> getAllUsers() {
@@ -42,11 +43,12 @@ public class UserController {
 		User user=userService.getByUsername(username);
 		if(user!=null)
 			return user;
+		
 		throw new UserNotFoundException(username);
 	}
 	
 	
-	@PostMapping
+	@PostMapping("register/")
 	public @ResponseBody String registerNewUser(@Valid @RequestBody User user) throws UserAlreadyExistsException, MethodArgumentNotValidException{
 		try {
 			userService.addUser(user);
@@ -58,6 +60,7 @@ public class UserController {
 		return "Signed up succesfully";
 	}
 	
+	
 	@PutMapping(path = "{username}")
 	public @ResponseBody String updateUser(@PathVariable("username") String username, @Valid @RequestBody User user) throws UserNotFoundException{
 		user=userService.updateUser(username,user);
@@ -66,6 +69,7 @@ public class UserController {
 		throw new UserNotFoundException(username);
 	}
 	
+
 	
 	@DeleteMapping(path = "{username}")
 	public String deleteUser(@PathVariable("username") String username) throws UserNotFoundException{

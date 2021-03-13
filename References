@@ -1,0 +1,29 @@
+DAO and DTO are different.
+DAO provides service to access database.
+DTO - data transfer OBJECT (intermediate mapper of objects between database and service layer)
+Add service interfaces
+
+
+
+create seperate repository objects (daos) for each collection in dao package.
+
+
+https://www.baeldung.com/cascading-with-dbref-and-lifecycle-events-in-spring-data-mongodb
+
+https://www.codejava.net/frameworks/spring-boot/spring-boot-security-role-based-authorization-tutorial
+
+
+https://spring.io/guides/topicals/spring-security-architecture
+
+https://docs.spring.io/spring-security/site/docs/5.4.5/api/
+
+https://bezkoder.com/spring-boot-jwt-auth-mongodb/
+
+https://medium.com/@akhileshanand/spring-boot-api-security-with-jwt-and-role-based-authorization-fea1fd7c9e32
+
+
+authentication (who are you?) and authorization (what are you allowed to do?)
+
+
+
+https://stackoverflow.com/questions/21128806/spring-security-how-to-restrict-user-access-certain-resources-based-on-dynamic

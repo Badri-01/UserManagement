@@ -1,4 +1,4 @@
-package com.example.uma.controllers;
+package com.example.uma.controller;
 
 import java.util.List;
 
@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.uma.exceptions.RoleAlreadyExistsException;
-import com.example.uma.exceptions.RoleNotFoundException;
-import com.example.uma.models.Role;
-import com.example.uma.services.RoleService;
+import com.example.uma.exception.role.RoleAlreadyExistsException;
+import com.example.uma.exception.role.RoleNotFoundException;
+import com.example.uma.model.Role;
+import com.example.uma.service.RoleService;
 
 @RequestMapping("/api/v1/role/")
 @RestController	
@@ -34,12 +34,12 @@ public class RoleController {
 		return roleService.getAllRoles();
 	}
 	
-	@GetMapping(path = "{id}")
-	public Role getByRoleId(@PathVariable("id") String id) throws RoleNotFoundException{
-		Role role=roleService.getById(id);
+	@GetMapping(path = "{roleName}")
+	public Role getByRoleName(@PathVariable("roleName") String roleName) throws RoleNotFoundException{
+		Role role=roleService.getById(roleName);
 		if(role!=null)
 			return role;
-		throw new RoleNotFoundException(id);
+		throw new RoleNotFoundException(roleName);
 	}
 	
 	@PostMapping
@@ -54,19 +54,19 @@ public class RoleController {
 		return role.getRoleName()+" role created";
 	}
 	
-	@DeleteMapping(path = "{id}")
-	public String deleteRole(@PathVariable("id") String id) throws RoleNotFoundException{
-		Role role=roleService.removeRole(id);
+	@DeleteMapping(path = "{roleName}")
+	public String deleteRole(@PathVariable("roleName") String roleName) throws RoleNotFoundException{
+		Role role=roleService.removeRole(roleName);
 		if(role!=null)
 			return "Role "+role.getRoleName()+" deleted";
-		throw new RoleNotFoundException(id);
+		throw new RoleNotFoundException(roleName);
 	}
 	
 	@ExceptionHandler(RoleNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public @ResponseBody String handleRoleNotFoundException(RoleNotFoundException ex)
 	{
-	  return "Role with id "+ex.getMessage()+" not found";
+	  return "Role "+ex.getMessage()+" not found";
 	}
 	
 	@ExceptionHandler(RoleAlreadyExistsException.class)

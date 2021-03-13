@@ -1,4 +1,4 @@
-package com.example.uma.exceptions;
+package com.example.uma.exception.role;
 
 @SuppressWarnings("serial")
 public class RoleAlreadyExistsException extends Exception {

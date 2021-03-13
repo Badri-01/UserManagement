@@ -1,8 +1,8 @@
-package com.example.uma.daos;
+package com.example.uma.dao;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.example.uma.models.User;
+import com.example.uma.model.User;
 
 public interface UserRepository extends MongoRepository<User,String>{
 	User findByUsername(String username);
